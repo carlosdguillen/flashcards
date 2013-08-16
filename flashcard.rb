@@ -15,7 +15,7 @@ module Flashcards
   class Deck
     attr_accessor :file 
     
-    def initialize(file = 'flashcard_sample.txt')
+    def initialize(file = 'flashcard_samples.txt')
       @file = File.open(file)
     end
     
@@ -35,4 +35,6 @@ module Flashcards
 
 end
 
-d = Deck
+d = Flashcards::Deck.new
+
+p d.parse
