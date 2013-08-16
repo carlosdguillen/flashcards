@@ -1,26 +1,35 @@
 # Main file for 
+require 'csv'
+
 module Flashcards
   
   class Card
     attr_reader :term, :definition
 
-    def intialize(term, definition)
-      @term = term
-      @definition = definition
+    def initialize(params)
+      @term = params[:term]
+      @definition = params[:definition]
     end
 
+    def to_s
+      "#{definition}:  #{term}"
+    end 
 
   end
 
   class Deck
-    attr_accessor :file 
+    attr_accessor :file, :card_deck
     
-    def initialize(file = 'flashcard_samples.txt')
-      @file = File.open(file)
+    def initialize(file = 'flash_card.csv')
+      @card_deck = []
+      @file = file
     end
     
     def parse
-      file.read
+      CSV.foreach(file, :headers => true, :header_converters => :symbol, :converters => :all) do |row|
+        card_deck << Card.new(Hash[row])
+      end
+      card_deck
     end
 
   end
@@ -37,4 +46,6 @@ end
 
 d = Flashcards::Deck.new
 
-p d.parse
+d_parse = d.parse
+
+puts d_parse
