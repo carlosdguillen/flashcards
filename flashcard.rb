@@ -48,7 +48,8 @@ module Flashcards
       @view.welcome_message
 
       while @deck.flashcards.any?
-        @view.diplay_definition(definition)
+        select_card
+        @view.display_definition(definition)
         get_guess
 
         until matching_term == @guess
@@ -68,16 +69,16 @@ module Flashcards
       @guess = gets.chomp.downcase!
     end
 
-    def index
+    def select_card
       rand(@deck.flashcards.size)
     end
 
     def definition
-      @deck.flashcards[index].definition
+      @deck.flashcards[select_card].definition
     end
 
     def matching_term
-      @deck.flashcards[index].term
+      @deck.flashcards[select_card].term
     end
 
     def delete_correct
@@ -118,5 +119,30 @@ module Flashcards
 end
 
 game = Flashcards::Controller.new
-puts game.matching_term
+# puts game.definition
+# puts game.matching_term
+
+###THIS WORKS
+# flashcards = {:alias => "To create a second name for the variable or method.", :and => "A command that appends two or more objects together."}
+
+# puts "Welcome to Ruby Flash Cards. To play, just enter the correct term for each definition."
+# puts "(type \"exit\" at any point to end the game)"
+# while flashcards.any?
+#   puts "\nDefinition"
+#   index_number = rand(flashcards.size)
+#   term = flashcards.keys[index_number].to_s
+#   definition = flashcards.values[index_number]
+#   puts definition
+#   puts "\nWhat is your guess?" 
+#   guess = gets.chomp.downcase!
+#   until term == guess
+#     puts "Guess: #{guess}"
+#     puts "Incorrect!  Try again."
+#     guess = gets.chomp
+#   end
+#   puts "Guess: #{guess}"
+#   puts "Correct!"
+#   flashcards.delete(term.to_sym)
+# end
+# puts "\nCongratulations! You have completed all flashcards.\nThanks for playing!"
 
